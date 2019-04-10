@@ -1,6 +1,9 @@
 package com.miaosha.controller;
 
 import com.miaosha.controller.viewobject.UserVO;
+import com.miaosha.error.BusinessException;
+import com.miaosha.error.EmBusinessError;
+import com.miaosha.response.CommonReturnType;
 import com.miaosha.service.UserService;
 import com.miaosha.service.model.UserModel;
 import org.apache.catalina.User;
@@ -24,9 +27,16 @@ public class UserController {
 
     @RequestMapping("/get")
     @ResponseBody
-    public UserVO getUser(@RequestParam(name="id") Integer id){
+    public CommonReturnType getUser(@RequestParam(name="id") Integer id) throws BusinessException {
         UserModel userModel = userService.getUserById(id);
-        return convertFromModel(userModel);
+
+        if(userModel==null){
+            throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
+        }
+
+        UserVO userVO = convertFromModel(userModel);
+        // 返回通用对象
+        return CommonReturnType.create(userVO);
     }
 
     private UserVO convertFromModel(UserModel userModel){
