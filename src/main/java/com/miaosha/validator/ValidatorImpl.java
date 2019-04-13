@@ -1,7 +1,6 @@
 package com.miaosha.validator;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.ConstraintViolation;
